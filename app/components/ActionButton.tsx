@@ -17,13 +17,13 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
     const variantClasses = {
       primary: 'btn-primary',
       secondary: 'btn-secondary',
-      destructive: 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
+      destructive: 'btn-destructive'
     };
 
     const sizeClasses = {
-      sm: 'px-3 py-2 text-sm rounded-md',
-      md: 'px-4 py-2 text-sm rounded-lg',
-      lg: 'px-6 py-3 text-base rounded-lg'
+      sm: 'px-md py-xs text-caption rounded-sm',
+      md: 'px-lg py-md text-body rounded-md',
+      lg: 'px-xl py-lg text-heading rounded-lg'
     };
 
     const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
