@@ -68,7 +68,7 @@ export default function ClipperVersePage() {
       // Create bounty on-chain
       const txHash = await minikit.writeContract({
         address: bountySystem.address,
-        abi: bountySystem.abi,
+        abi: bountySystem.abi as any,
         functionName: 'createBounty',
         args: [
           bountyData.description,
