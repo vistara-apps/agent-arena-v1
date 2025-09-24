@@ -3,37 +3,101 @@
 import { useState, useEffect } from 'react';
 import { ConnectWallet, Wallet } from '@coinbase/onchainkit/wallet';
 import { Name, Avatar } from '@coinbase/onchainkit/identity';
-import { Plus, TrendingUp, Users, Award, DollarSign } from 'lucide-react';
+import { Plus, TrendingUp, Users, Award, DollarSign, Loader2 } from 'lucide-react';
 import { Navigation } from './components/Navigation';
 import { BountyCard } from './components/BountyCard';
 import { AgentProfileCard } from './components/AgentProfileCard';
 import { BountyModal } from './components/BountyModal';
 import { CreateBountyModal } from './components/CreateBountyModal';
 import { ActionButton } from './components/ActionButton';
+import { AgentOnboardingModal } from './components/AgentOnboardingModal';
 import { MOCK_BOUNTIES, MOCK_AGENTS } from '@/lib/constants';
 import { Bounty, Agent } from '@/lib/types';
+import { minikit } from '@/lib/minikit';
+import { getBountySystemContract, getIdentityRegistryContract } from '@/lib/contracts';
 
 export default function ClipperVersePage() {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedBounty, setSelectedBounty] = useState<Bounty | null>(null);
   const [showBountyModal, setShowBountyModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showAgentModal, setShowAgentModal] = useState(false);
   const [bounties, setBounties] = useState<Bounty[]>(MOCK_BOUNTIES);
   const [agents] = useState<Agent[]>(MOCK_AGENTS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
+  const [isMiniKit, setIsMiniKit] = useState(false);
+
+  // Check for MiniKit environment and wallet connection
+  useEffect(() => {
+    const checkMiniKit = async () => {
+      setIsMiniKit(minikit.isMiniKit());
+
+      try {
+        const address = await minikit.getAddress();
+        setConnectedAddress(address);
+      } catch (error) {
+        console.log('Wallet not connected');
+      }
+    };
+
+    checkMiniKit();
+  }, []);
 
   const handleBountyClick = (bounty: Bounty) => {
     setSelectedBounty(bounty);
     setShowBountyModal(true);
   };
 
-  const handleCreateBounty = (bountyData: any) => {
-    const newBounty: Bounty = {
-      bountyId: (bounties.length + 1).toString(),
-      creatorAddress: '0x1234567890123456789012345678901234567890',
-      status: 'open',
-      ...bountyData
-    };
-    setBounties(prev => [newBounty, ...prev]);
+  const handleCreateBounty = async (bountyData: any) => {
+    if (!connectedAddress) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const bountySystem = getBountySystemContract();
+
+      // Convert deadline to Unix timestamp
+      const deadline = Math.floor(new Date(bountyData.submissionDeadline).getTime() / 1000);
+
+      // Convert reward amount to wei (assuming ETH)
+      const rewardAmount = BigInt(Math.floor(parseFloat(bountyData.rewardAmount) * 1e18));
+
+      // Create bounty on-chain
+      const txHash = await minikit.writeContract({
+        address: bountySystem.address,
+        abi: bountySystem.abi,
+        functionName: 'createBounty',
+        args: [
+          bountyData.description,
+          rewardAmount,
+          '0x0000000000000000000000000000000000000000', // ETH address
+          deadline,
+          bountyData.verificationMethod || 'manual'
+        ],
+        value: rewardAmount,
+      });
+
+      console.log('Bounty created:', txHash);
+
+      // For demo purposes, add to local state
+      // In production, you'd listen for events or refetch from contract
+      const newBounty: Bounty = {
+        bountyId: (bounties.length + 1).toString(),
+        creatorAddress: connectedAddress,
+        status: 'open',
+        ...bountyData
+      };
+      setBounties(prev => [newBounty, ...prev]);
+
+    } catch (error) {
+      console.error('Failed to create bounty:', error);
+      alert('Failed to create bounty. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderMetrics = () => (
@@ -98,8 +162,13 @@ export default function ClipperVersePage() {
           variant="primary"
           onClick={() => setShowCreateModal(true)}
           className="flex items-center space-x-2"
+          disabled={isLoading}
         >
-          <Plus className="w-4 h-4" />
+          {isLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Plus className="w-4 h-4" />
+          )}
           <span>Create Bounty</span>
         </ActionButton>
       </div>
@@ -137,8 +206,13 @@ export default function ClipperVersePage() {
           variant="primary"
           onClick={() => setShowCreateModal(true)}
           className="flex items-center space-x-2"
+          disabled={isLoading}
         >
-          <Plus className="w-4 h-4" />
+          {isLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Plus className="w-4 h-4" />
+          )}
           <span>Create Bounty</span>
         </ActionButton>
       </div>
@@ -157,8 +231,18 @@ export default function ClipperVersePage() {
 
   const renderAgents = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-fg">Verified Agents</h2>
-      
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-fg">Verified Agents</h2>
+        <ActionButton
+          variant="primary"
+          onClick={() => setShowAgentModal(true)}
+          className="flex items-center space-x-2"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Become an Agent</span>
+        </ActionButton>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {agents.map((agent) => (
           <AgentProfileCard
@@ -222,7 +306,17 @@ export default function ClipperVersePage() {
             <ConnectWallet>
               <div className="flex items-center space-x-3 glass-card px-4 py-2">
                 <Avatar className="w-8 h-8" />
-                <Name className="font-medium" />
+                <div className="flex flex-col">
+                  <Name className="font-medium" />
+                  {connectedAddress && (
+                    <span className="text-caption text-text-muted">
+                      {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
+                    </span>
+                  )}
+                  {isMiniKit && (
+                    <span className="text-caption text-accent">MiniKit</span>
+                  )}
+                </div>
               </div>
             </ConnectWallet>
           </Wallet>
@@ -248,6 +342,11 @@ export default function ClipperVersePage() {
           isOpen={showCreateModal}
           onClose={() => setShowCreateModal(false)}
           onSubmit={handleCreateBounty}
+        />
+
+        <AgentOnboardingModal
+          isOpen={showAgentModal}
+          onClose={() => setShowAgentModal(false)}
         />
       </div>
     </div>
