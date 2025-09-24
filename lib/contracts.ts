@@ -1,5 +1,4 @@
-import { Address, getContract } from 'viem';
-import { publicClient, walletClient } from './minikit';
+import { Address } from 'viem';
 
 // Contract ABIs (simplified for demo - in production, use full compiled ABIs)
 export const IDENTITY_REGISTRY_ABI = [
@@ -35,7 +34,7 @@ export const IDENTITY_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
-] as const;
+];
 
 export const BOUNTY_SYSTEM_ABI = [
   {
@@ -116,7 +115,7 @@ export const BOUNTY_SYSTEM_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
-] as const;
+];
 
 // Contract addresses (deploy to Base testnet/mainnet)
 export const CONTRACT_ADDRESSES = {

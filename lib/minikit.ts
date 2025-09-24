@@ -1,7 +1,14 @@
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
-import { createPublicClient, createWalletClient } from 'viem';
+import { createPublicClient, createWalletClient, custom } from 'viem';
+
+// Extend Window interface for ethereum
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 // Base MiniKit configuration
 export const config = createConfig({
@@ -17,16 +24,15 @@ export const config = createConfig({
   },
 });
 
-// Public client for reading data
+// Create Viem clients for direct interaction
 export const publicClient = createPublicClient({
   chain: base,
   transport: http(),
 });
 
-// Wallet client for transactions
 export const walletClient = createWalletClient({
   chain: base,
-  transport: http(),
+  transport: typeof window !== 'undefined' && window.ethereum ? custom(window.ethereum) : http(),
 });
 
 // MiniKit utilities
@@ -40,8 +46,11 @@ export const minikit = {
   // Get connected wallet address
   getAddress: async () => {
     try {
-      const accounts = await walletClient.getAddresses();
-      return accounts[0];
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        return accounts[0] || null;
+      }
+      return null;
     } catch (error) {
       console.error('Failed to get address:', error);
       return null;
