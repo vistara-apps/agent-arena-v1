@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "ClipperVerse",
+    "subtitle": "Built with Zara",
+    "description": "ClipperVerse is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app",
+    "splashImageUrl": "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app/image.png",
+    "tagline": "ClipperVerse",
+    "screenshotUrls": [
+      "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app/screenshot.png",
+      "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://d1bde31cd78c488c98873fb0d329814e-n9p6.vercel.app/api/webhook"
+  }
+}

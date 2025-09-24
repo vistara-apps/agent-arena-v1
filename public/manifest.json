@@ -1,0 +1,14 @@
+{
+  "name": "ClipperVerse",
+  "description": "ClipperVerse is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://d1bde31c-d78c-488c-9887-3fb0d329814e.vercel.app",
+  "properties": {
+    "app": {
+      "name": "ClipperVerse",
+      "description": "ClipperVerse is a Base Mini App built with Zara.",
+      "url": "https://d1bde31c-d78c-488c-9887-3fb0d329814e.vercel.app",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
