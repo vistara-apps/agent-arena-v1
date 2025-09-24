@@ -126,19 +126,27 @@ export const CONTRACT_ADDRESSES = {
 
 // Contract instances
 export const getIdentityRegistryContract = () => {
-  return getContract({
+  return {
+    contract: getContract({
+      address: CONTRACT_ADDRESSES.IDENTITY_REGISTRY,
+      abi: IDENTITY_REGISTRY_ABI,
+      client: { public: publicClient, wallet: walletClient },
+    }),
     address: CONTRACT_ADDRESSES.IDENTITY_REGISTRY,
     abi: IDENTITY_REGISTRY_ABI,
-    client: { public: publicClient, wallet: walletClient },
-  });
+  };
 };
 
 export const getBountySystemContract = () => {
-  return getContract({
+  return {
+    contract: getContract({
+      address: CONTRACT_ADDRESSES.BOUNTY_SYSTEM,
+      abi: BOUNTY_SYSTEM_ABI,
+      client: { public: publicClient, wallet: walletClient },
+    }),
     address: CONTRACT_ADDRESSES.BOUNTY_SYSTEM,
     abi: BOUNTY_SYSTEM_ABI,
-    client: { public: publicClient, wallet: walletClient },
-  });
+  };
 };
 
 // Utility functions
@@ -157,4 +165,3 @@ export const formatCurrency = (amount: string, currency: 'ETH' | 'USDC') => {
   }
   return `${(numAmount / 1e6).toFixed(2)} USDC`;
 };
-

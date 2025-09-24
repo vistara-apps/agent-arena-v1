@@ -77,7 +77,7 @@ export function AgentOnboardingModal({ isOpen, onClose, onSuccess }: AgentOnboar
       const identityRegistry = getIdentityRegistryContract();
       await minikit.writeContract({
         address: identityRegistry.address,
-        abi: identityRegistry.abi,
+        abi: identityRegistry.abi as any,
         functionName: 'registerAgent',
         args: [cardURI],
       });
@@ -286,4 +286,3 @@ export function AgentOnboardingModal({ isOpen, onClose, onSuccess }: AgentOnboar
     </div>
   );
 }
-

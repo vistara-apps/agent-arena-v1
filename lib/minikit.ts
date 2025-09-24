@@ -1,6 +1,7 @@
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { createPublicClient, createWalletClient } from 'viem';
 
 // Base MiniKit configuration
 export const config = createConfig({
@@ -17,14 +18,16 @@ export const config = createConfig({
 });
 
 // Public client for reading data
-export const publicClient = config.getClient().extend(() => ({
+export const publicClient = createPublicClient({
+  chain: base,
   transport: http(),
-}));
+});
 
 // Wallet client for transactions
-export const walletClient = config.getClient().extend(() => ({
+export const walletClient = createWalletClient({
+  chain: base,
   transport: http(),
-}));
+});
 
 // MiniKit utilities
 export const minikit = {
@@ -76,7 +79,7 @@ export const minikit = {
       const hash = await walletClient.sendTransaction({
         account: address,
         to: tx.to,
-        value: tx.value || 0n,
+        value: tx.value || BigInt(0),
         data: tx.data || '0x',
       });
 
@@ -126,7 +129,7 @@ export const minikit = {
         abi: params.abi,
         functionName: params.functionName,
         args: params.args || [],
-        value: params.value || 0n,
+        value: params.value || BigInt(0),
         account: address,
       });
 
@@ -139,4 +142,3 @@ export const minikit = {
 };
 
 export default minikit;
-
