@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ClipperVerse Professional Finance Theme */
+  --color-bg: hsl(220 30% 8%);
+  --color-fg: hsl(0 0% 95%);
+  --color-accent: hsl(51 100% 50%);
+  --color-border: hsl(220 20% 20%);
+  --color-primary: hsl(220 90% 50%);
+  --color-surface: hsl(220 25% 12%);
+  --color-text-muted: hsl(0 0% 70%);
+}
+
+@layer base {
+  * {
+    @apply border-gray-700;
+  }
+  
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-fg;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface border border-border rounded-lg backdrop-blur-sm;
+    background: linear-gradient(135deg, 
+      hsla(220, 25%, 12%, 0.8) 0%, 
+      hsla(220, 25%, 15%, 0.6) 100%);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-accent to-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:from-yellow-400 hover:to-accent transition-all duration-200 shadow-lg hover:shadow-xl;
+  }
+
+  .btn-secondary {
+    @apply bg-surface border border-border text-fg px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-all duration-200;
+  }
+
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-open {
+    @apply bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .status-processing {
+    @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+  }
+
+  .status-verified {
+    @apply bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .status-disputed {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+
+  .metric-card {
+    @apply glass-card p-4 hover:bg-opacity-15 transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent;
+  }
+}
