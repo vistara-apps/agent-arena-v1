@@ -2,22 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* ClipperVerse Professional Finance Theme */
-  --color-bg: hsl(220 30% 8%);
-  --color-fg: hsl(0 0% 95%);
-  --color-accent: hsl(51 100% 50%);
-  --color-border: hsl(220 20% 20%);
-  --color-primary: hsl(220 90% 50%);
-  --color-surface: hsl(220 25% 12%);
-  --color-text-muted: hsl(0 0% 70%);
-}
-
 @layer base {
   * {
-    @apply border-gray-700;
+    @apply border-border;
   }
-  
+
   body {
     @apply bg-bg text-fg font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -30,22 +19,30 @@
 
 @layer components {
   .glass-card {
-    @apply bg-surface border border-border rounded-lg backdrop-blur-sm;
-    background: linear-gradient(135deg, 
-      hsla(220, 25%, 12%, 0.8) 0%, 
-      hsla(220, 25%, 15%, 0.6) 100%);
+    @apply border border-border rounded-lg backdrop-blur-sm shadow-card;
+    background: linear-gradient(135deg,
+      hsl(210 20% 20% / 0.8) 0%,
+      hsl(210 20% 25% / 0.6) 100%);
+  }
+
+  .metric-card {
+    @apply glass-card p-lg hover:bg-opacity-80 transition-all duration-base;
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-accent to-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:from-yellow-400 hover:to-accent transition-all duration-200 shadow-lg hover:shadow-xl;
+    @apply bg-primary text-fg px-lg py-md rounded-md font-semibold hover:bg-primary/80 transition-all duration-base shadow-card hover:shadow-modal;
   }
 
   .btn-secondary {
-    @apply bg-surface border border-border text-fg px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-all duration-200;
+    @apply bg-surface border border-border text-fg px-lg py-md rounded-md font-medium hover:bg-muted transition-all duration-base;
+  }
+
+  .btn-destructive {
+    @apply bg-destructive text-fg px-lg py-md rounded-md font-medium hover:bg-destructive/80 transition-all duration-base;
   }
 
   .status-badge {
-    @apply px-3 py-1 rounded-full text-xs font-medium;
+    @apply px-md py-xs rounded-full text-caption font-medium;
   }
 
   .status-open {
@@ -64,8 +61,12 @@
     @apply bg-red-500/20 text-red-400 border border-red-500/30;
   }
 
-  .metric-card {
-    @apply glass-card p-4 hover:bg-opacity-15 transition-all duration-200;
+  .status-pending {
+    @apply bg-gray-500/20 text-gray-400 border border-gray-500/30;
+  }
+
+  .status-failed {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
   }
 }
 
@@ -73,4 +74,9 @@
   .text-gradient {
     @apply bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent;
   }
+
+  .text-balance {
+    text-wrap: balance;
+  }
 }
+

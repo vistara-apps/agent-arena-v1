@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { X, DollarSign, Clock, User, FileText } from 'lucide-react';
+import { X, DollarSign, Clock, User, FileText, Send } from 'lucide-react';
 import { Bounty } from '@/lib/types';
 import { CURRENCY_SYMBOLS } from '@/lib/constants';
 import { ActionButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
+import { ReceiptSubmissionModal } from './ReceiptSubmissionModal';
 
 interface BountyModalProps {
   bounty: Bounty | null;
@@ -15,15 +16,18 @@ interface BountyModalProps {
 
 export function BountyModal({ bounty, isOpen, onClose }: BountyModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
 
   if (!isOpen || !bounty) return null;
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
+  const handleSubmitReceipt = () => {
+    setShowReceiptModal(true);
+  };
+
+  const handleReceiptSuccess = () => {
+    setShowReceiptModal(false);
     onClose();
+    // Could trigger a refresh of bounty data here
   };
 
   const formatDeadline = (date: Date) => {
@@ -114,15 +118,23 @@ export function BountyModal({ bounty, isOpen, onClose }: BountyModalProps) {
             </ActionButton>
             <ActionButton
               variant="primary"
-              onClick={handleSubmit}
+              onClick={handleSubmitReceipt}
               loading={isSubmitting}
               disabled={bounty.status !== 'open'}
               className="flex-1"
             >
-              {bounty.status === 'open' ? 'Submit Proposal' : 'Not Available'}
+              <Send className="w-4 h-4 mr-2" />
+              {bounty.status === 'open' ? 'Submit Work' : 'Not Available'}
             </ActionButton>
           </div>
         </div>
+
+        <ReceiptSubmissionModal
+          isOpen={showReceiptModal}
+          onClose={() => setShowReceiptModal(false)}
+          bountyId={bounty.bountyId}
+          onSuccess={handleReceiptSuccess}
+        />
       </div>
     </div>
   );
