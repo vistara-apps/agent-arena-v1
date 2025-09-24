@@ -1,6 +1,14 @@
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { createPublicClient, createWalletClient, custom } from 'viem';
+
+// Extend Window interface for ethereum
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 // Base MiniKit configuration
 export const config = createConfig({
@@ -16,15 +24,16 @@ export const config = createConfig({
   },
 });
 
-// Public client for reading data
-export const publicClient = config.getClient().extend(() => ({
+// Create Viem clients for direct interaction
+export const publicClient = createPublicClient({
+  chain: base,
   transport: http(),
-}));
+});
 
-// Wallet client for transactions
-export const walletClient = config.getClient().extend(() => ({
-  transport: http(),
-}));
+export const walletClient = createWalletClient({
+  chain: base,
+  transport: typeof window !== 'undefined' && window.ethereum ? custom(window.ethereum) : http(),
+});
 
 // MiniKit utilities
 export const minikit = {
@@ -37,8 +46,11 @@ export const minikit = {
   // Get connected wallet address
   getAddress: async () => {
     try {
-      const accounts = await walletClient.getAddresses();
-      return accounts[0];
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        return accounts[0] || null;
+      }
+      return null;
     } catch (error) {
       console.error('Failed to get address:', error);
       return null;
@@ -76,7 +88,7 @@ export const minikit = {
       const hash = await walletClient.sendTransaction({
         account: address,
         to: tx.to,
-        value: tx.value || 0n,
+        value: tx.value || BigInt(0),
         data: tx.data || '0x',
       });
 
@@ -126,7 +138,7 @@ export const minikit = {
         abi: params.abi,
         functionName: params.functionName,
         args: params.args || [],
-        value: params.value || 0n,
+        value: params.value || BigInt(0),
         account: address,
       });
 

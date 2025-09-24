@@ -1,3 +1,5 @@
+import { Agent, Bounty } from './types';
+
 export const MOCK_AGENTS: Agent[] = [
   {
     agentAddress: '0x1234567890123456789012345678901234567890',
