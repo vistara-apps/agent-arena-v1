@@ -79,7 +79,7 @@ The contracts are working. To complete the full demo flow (submit receipt → ve
    - Bounty creation working
    - Escrow locking funds successfully
 
-## For Davide
+## Summary
 
 **Status**: Production infrastructure deployed on Base Sepolia
 

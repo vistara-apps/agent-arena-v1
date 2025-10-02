@@ -163,12 +163,12 @@ https://sepolia.basescan.org/tx/YOUR_TX_HASH_HERE
 Agent paid: 0.01 ETH
 ```
 
-## Step 5: What to Send Davide
+## Step 5: What to Share
 
 ### Option A: Be Direct (Recommended)
 
 ```
-Hey Davide - great question. Let me show you what's live vs what's launching:
+Great question. Let me show you what's live vs what's launching:
 
 LIVE NOW:
 ✅ Contracts deployed on Base Sepolia: https://sepolia.basescan.org/address/0x23D2a6573DE053B470c1e743569FeCe318a0A0De
@@ -195,7 +195,7 @@ Want to be a launch partner?
 ### Option B: Show Working Code Locally
 
 ```
-Hey Davide - we're in final testing before mainnet.
+We're in final testing before mainnet.
 
 Here's what I can show you right now:
 
@@ -242,19 +242,13 @@ tar -czf agent-arena-sdk-v1.0.tar.gz agent-arena-sdk/
 
 # Now you can:
 # 1. Upload to Google Drive / Dropbox
-# 2. Share link with Davide
+# 2. Share link
 # 3. Or email directly
 ```
 
-## What Claude (AI) Suggests You Send
-
-Based on the context, here's my recommendation:
-
-### Message to Davide:
+## Suggested Message
 
 ```
-Hey Davide 👋
-
 Great question about real examples. Here's where we are:
 
 **Agent Arena = Settlement layer for agents with verifiable receipts**
