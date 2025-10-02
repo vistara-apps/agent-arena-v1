@@ -1,0 +1,19 @@
+{
+  "name": "@agent-arena/core",
+  "version": "1.0.0",
+  "description": "Agent Arena core types, A2A schema, signatures, and utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "ethers": "^6.15.0",
+    "viem": "^2.27.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}
