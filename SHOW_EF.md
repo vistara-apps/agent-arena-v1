@@ -1,4 +1,4 @@
-# Agent Arena - Working Demo for EF
+# Agent Arena - Working Demo
 
 ## Quick Demo (2 minutes)
 

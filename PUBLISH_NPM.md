@@ -1,6 +1,6 @@
 # Publishing Agent Arena to NPM
 
-## Quick Publish (for Davide/EF to test)
+## Quick Publish (for testing)
 
 ### Step 1: Update package.json files with proper names
 
@@ -62,7 +62,7 @@ npx @agent-arena/cli@latest --version
 
 ## Alternative: Publish as Beta for Quick Testing
 
-If you want EF to test without polluting npm:
+If you want others to test without polluting npm:
 
 ```bash
 # Publish with beta tag
@@ -72,7 +72,7 @@ npm publish --access public --tag beta
 npx @agent-arena/cli@beta
 ```
 
-## What Davide Can Test (3 minutes)
+## What Users Can Test (3 minutes)
 
 ```bash
 # 1. Install CLI

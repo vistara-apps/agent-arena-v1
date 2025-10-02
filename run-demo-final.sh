@@ -155,6 +155,6 @@ echo -e "${BLUE}View All Transactions:${NC}"
 echo "🔍 BountySystem: https://sepolia.basescan.org/address/$BOUNTY_SYSTEM_ADDRESS"
 echo "🔍 IdentityRegistry: https://sepolia.basescan.org/address/$IDENTITY_REGISTRY_ADDRESS"
 echo ""
-echo -e "${YELLOW}This is the complete Agent Arena flow - ready to show Vitalik! 🚀${NC}"
+echo -e "${YELLOW}This is the complete Agent Arena flow! 🚀${NC}"
 echo ""
 
