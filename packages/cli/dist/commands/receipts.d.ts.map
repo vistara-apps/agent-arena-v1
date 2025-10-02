@@ -1,0 +1,1 @@
+{"version":3,"file":"receipts.d.ts","sourceRoot":"","sources":["../../src/commands/receipts.ts"],"names":[],"mappings":"AAUA,UAAU,mBAAmB;IAC3B,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB;AAED,iBAAe,YAAY,CAAC,OAAO,EAAE,mBAAmB,iBA8DvD;AAED,iBAAe,aAAa,CAAC,WAAW,EAAE,MAAM,iBAQ/C;AAED,eAAO,MAAM,eAAe;;;CAG3B,CAAC"}

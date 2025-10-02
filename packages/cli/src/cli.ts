@@ -120,7 +120,7 @@ program.configureHelp({
     const description = chalk.gray('The git for agent work');
     const version = chalk.gray(`v${program.version()}`);
     
-    return `${title} ${version}\n${description}\n\n${helper.formatHelp(cmd)}`;
+    return `${title} ${version}\n${description}\n\n${helper.formatHelp()}`;
   }
 });
 
