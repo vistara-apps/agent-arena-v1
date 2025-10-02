@@ -58,12 +58,44 @@ export default function ClipperVersePage() {
     setIsLoading(true);
     try {
       const bountySystem = getBountySystemContract();
-
-      // Convert deadline to Unix timestamp
       const deadline = Math.floor(new Date(bountyData.submissionDeadline).getTime() / 1000);
 
-      // Convert reward amount to wei (assuming ETH)
-      const rewardAmount = BigInt(Math.floor(parseFloat(bountyData.rewardAmount) * 1e18));
+      // Determine token address and amount decimals
+      const isUSDC = bountyData.currency === 'USDC';
+      const tokenAddress = isUSDC 
+        ? '0x036CbD53842c5426634e7929541eC2318f3dCF7e' // USDC on Base Sepolia
+        : '0x0000000000000000000000000000000000000000'; // ETH
+      
+      const decimals = isUSDC ? 6 : 18;
+      const rewardAmount = BigInt(Math.floor(parseFloat(bountyData.rewardAmount) * 10 ** decimals));
+
+      // If USDC, need to approve first
+      if (isUSDC) {
+        const usdcAbi = [
+          {
+            inputs: [
+              { name: 'spender', type: 'address' },
+              { name: 'amount', type: 'uint256' }
+            ],
+            name: 'approve',
+            outputs: [{ name: '', type: 'bool' }],
+            stateMutability: 'nonpayable',
+            type: 'function'
+          }
+        ];
+
+        console.log('Approving USDC...');
+        const approveTx = await minikit.writeContract({
+          address: tokenAddress,
+          abi: usdcAbi,
+          functionName: 'approve',
+          args: [bountySystem.address, rewardAmount],
+        });
+        console.log('USDC approved:', approveTx);
+        
+        // Wait a bit for approval to confirm
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
 
       // Create bounty on-chain
       const txHash = await minikit.writeContract({
@@ -73,11 +105,11 @@ export default function ClipperVersePage() {
         args: [
           bountyData.description,
           rewardAmount,
-          '0x0000000000000000000000000000000000000000', // ETH address
+          tokenAddress,
           deadline,
           bountyData.verificationMethod || 'manual'
         ],
-        value: rewardAmount,
+        value: isUSDC ? 0n : rewardAmount, // Only send value if ETH
       });
 
       console.log('Bounty created:', txHash);
