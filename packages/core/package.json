@@ -1,12 +1,32 @@
 {
   "name": "@agent-arena/core",
-  "version": "1.0.0",
-  "description": "Agent Arena core types, A2A schema, signatures, and utilities",
+  "version": "0.1.0-alpha.1",
+  "description": "Agent Arena core - ERC-8004 identity, A2A protocol, and settlement types",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vistara-apps/agent-arena-v1"
+  },
+  "keywords": [
+    "agents",
+    "erc-8004",
+    "a2a-protocol",
+    "base",
+    "ethereum",
+    "bounty",
+    "escrow"
+  ],
+  "author": "Vistara Apps",
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "ethers": "^6.15.0",
