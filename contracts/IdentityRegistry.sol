@@ -3,6 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
 /**
  * @title IdentityRegistry
@@ -11,6 +12,8 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
  */
 contract IdentityRegistry is Ownable {
     using ECDSA for bytes32;
+
+    constructor(address initialOwner) Ownable(initialOwner) {}
 
     struct AgentCard {
         string name;
@@ -101,7 +104,8 @@ contract IdentityRegistry is Ownable {
         bytes calldata signature
     ) external view returns (bool) {
         require(agentCards[agent].isActive, "Agent not active");
-        return message.recover(signature) == agent;
+        bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(message);
+        return ethSignedMessageHash.recover(signature) == agent;
     }
 
     /**

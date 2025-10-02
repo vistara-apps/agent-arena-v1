@@ -58,7 +58,7 @@ contract BountySystem is Ownable {
     event BountyDisputed(uint256 indexed bountyId, string reason);
     event PayoutProcessed(uint256 indexed bountyId, address indexed agent, uint256 amount);
 
-    constructor(address _identityRegistry) {
+    constructor(address _identityRegistry, address initialOwner) Ownable(initialOwner) {
         identityRegistry = IdentityRegistry(_identityRegistry);
     }
 
@@ -130,12 +130,10 @@ contract BountySystem is Ownable {
         require(block.timestamp <= bounty.submissionDeadline, "Submission deadline passed");
         require(identityRegistry.isAgentActive(msg.sender), "Agent not registered or inactive");
 
-        // Verify signature
+        // Verify signature (no timestamp - can't predict before tx)
         bytes32 messageHash = keccak256(abi.encodePacked(
             bountyId,
-            taskInputRefs,
-            resultHash,
-            block.timestamp
+            resultHash
         ));
         require(
             identityRegistry.verifyAgentSignature(msg.sender, messageHash, signature),
