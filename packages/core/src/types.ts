@@ -1,3 +1,85 @@
+// ============================================
+// ERC-8004 Official Types
+// ============================================
+
+export interface ERC8004Agent {
+  agentId: number; // ERC-721 NFT token ID
+  owner: string; // Current owner of agent NFT
+  tokenURI: string; // Points to agent registration file
+  metadata: Record<string, string>; // On-chain metadata
+  registeredAt: Date;
+}
+
+export interface ERC8004Registration {
+  type: string; // "https://eips.ethereum.org/EIPS/eip-8004#registration-v1"
+  name: string;
+  description: string;
+  image?: string;
+  endpoints: ERC8004Endpoint[];
+  registrations: ERC8004RegistryEntry[];
+  supportedTrust?: ('reputation' | 'crypto-economic' | 'tee-attestation')[];
+}
+
+export interface ERC8004Endpoint {
+  name: string; // "A2A", "MCP", "agentWallet", etc.
+  endpoint: string; // URL or address
+  version?: string;
+  capabilities?: any; // MCP capabilities
+}
+
+export interface ERC8004RegistryEntry {
+  agentId: number;
+  agentRegistry: string; // "eip155:chainId:address"
+}
+
+export interface ERC8004Feedback {
+  agentId: number;
+  clientAddress: string;
+  score: number; // 0-100
+  tag1?: string;
+  tag2?: string;
+  feedbackUri?: string;
+  feedbackHash?: string;
+  timestamp: Date;
+  isRevoked: boolean;
+}
+
+export interface ERC8004FeedbackAuth {
+  agentId: number;
+  clientAddress: string;
+  indexLimit: number;
+  expiry: Date;
+  chainId: number;
+  identityRegistry: string;
+  signerAddress: string;
+  signature: string;
+}
+
+export interface ERC8004Validation {
+  requestHash: string;
+  validatorAddress: string;
+  agentId: number;
+  response: number; // 0-100
+  responseHash?: string;
+  tag?: string;
+  lastUpdate: Date;
+}
+
+export interface ERC8004ReputationSummary {
+  agentId: number;
+  count: number;
+  averageScore: number; // 0-100
+  feedbacks?: ERC8004Feedback[];
+}
+
+export interface ERC8004ValidationSummary {
+  agentId: number;
+  count: number;
+  averageResponse: number; // 0-100
+  validations?: ERC8004Validation[];
+}
+
+// Legacy Agent interface (deprecated - use ERC8004Agent)
 export interface Agent {
   agentAddress: string;
   agentCardURI: string;

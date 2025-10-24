@@ -42,4 +42,4 @@ next-env.d.ts
 
 # OS
 Thumbs.db
-test-ledger/*
+test-ledger/*contracts-foundry/lib/openzeppelin-contracts/
