@@ -4,9 +4,9 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@erc8004/IdentityRegistry.sol";
-import "@erc8004/ReputationRegistry.sol";
-import "@erc8004/ValidationRegistry.sol";
+import {IdentityRegistry} from "../lib/erc-8004-contracts/contracts/IdentityRegistry.sol";
+import {ReputationRegistry} from "../lib/erc-8004-contracts/contracts/ReputationRegistry.sol";
+import {ValidationRegistry} from "../lib/erc-8004-contracts/contracts/ValidationRegistry.sol";
 
 /**
  * @title BountySystemERC8004

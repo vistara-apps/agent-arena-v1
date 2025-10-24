@@ -60,12 +60,14 @@ async function showReceipts(options: ShowReceiptsOptions) {
     console.log(chalk.gray('─'.repeat(50)));
 
     for (const event of events.slice(-10)) { // Show last 10
-      const args = event.args;
-      console.log(chalk.bold('Agent:'), args.agent);
-      console.log(chalk.gray('  Bounty:'), args.bountyId.toString());
-      console.log(chalk.gray('  Score:'), (Number(args.trustScore) / 10).toFixed(1) + '/5.0');
-      console.log(chalk.gray('  Hash:'), args.attestationHash);
-      console.log();
+      if ('args' in event) {
+        const args = event.args;
+        console.log(chalk.bold('Agent:'), args.agent);
+        console.log(chalk.gray('  Bounty:'), args.bountyId.toString());
+        console.log(chalk.gray('  Score:'), (Number(args.trustScore) / 10).toFixed(1) + '/5.0');
+        console.log(chalk.gray('  Hash:'), args.attestationHash);
+        console.log();
+      }
     }
 
     console.log(chalk.gray('─'.repeat(50)) + '\n');

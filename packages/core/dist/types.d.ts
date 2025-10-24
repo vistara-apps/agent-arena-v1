@@ -1,3 +1,71 @@
+export interface ERC8004Agent {
+    agentId: number;
+    owner: string;
+    tokenURI: string;
+    metadata: Record<string, string>;
+    registeredAt: Date;
+}
+export interface ERC8004Registration {
+    type: string;
+    name: string;
+    description: string;
+    image?: string;
+    endpoints: ERC8004Endpoint[];
+    registrations: ERC8004RegistryEntry[];
+    supportedTrust?: ('reputation' | 'crypto-economic' | 'tee-attestation')[];
+}
+export interface ERC8004Endpoint {
+    name: string;
+    endpoint: string;
+    version?: string;
+    capabilities?: any;
+}
+export interface ERC8004RegistryEntry {
+    agentId: number;
+    agentRegistry: string;
+}
+export interface ERC8004Feedback {
+    agentId: number;
+    clientAddress: string;
+    score: number;
+    tag1?: string;
+    tag2?: string;
+    feedbackUri?: string;
+    feedbackHash?: string;
+    timestamp: Date;
+    isRevoked: boolean;
+}
+export interface ERC8004FeedbackAuth {
+    agentId: number;
+    clientAddress: string;
+    indexLimit: number;
+    expiry: Date;
+    chainId: number;
+    identityRegistry: string;
+    signerAddress: string;
+    signature: string;
+}
+export interface ERC8004Validation {
+    requestHash: string;
+    validatorAddress: string;
+    agentId: number;
+    response: number;
+    responseHash?: string;
+    tag?: string;
+    lastUpdate: Date;
+}
+export interface ERC8004ReputationSummary {
+    agentId: number;
+    count: number;
+    averageScore: number;
+    feedbacks?: ERC8004Feedback[];
+}
+export interface ERC8004ValidationSummary {
+    agentId: number;
+    count: number;
+    averageResponse: number;
+    validations?: ERC8004Validation[];
+}
 export interface Agent {
     agentAddress: string;
     agentCardURI: string;

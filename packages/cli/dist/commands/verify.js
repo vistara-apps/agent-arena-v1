@@ -40,9 +40,9 @@ async function verifyWork(options) {
             ? chalk_1.default.green(result.trust_score.toFixed(1) + '/5.0')
             : chalk_1.default.red(result.trust_score.toFixed(1) + '/5.0'));
         console.log('\n' + chalk_1.default.bold('Verification Layers:'));
-        console.log(chalk_1.default.gray('  Intent:'), result.verification.intent ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
-        console.log(chalk_1.default.gray('  Integrity:'), result.verification.integrity ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
-        console.log(chalk_1.default.gray('  Outcome:'), result.verification.outcome ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
+        console.log(chalk_1.default.gray('  Intent:'), result.verification?.intent ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
+        console.log(chalk_1.default.gray('  Integrity:'), result.verification?.integrity ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
+        console.log(chalk_1.default.gray('  Outcome:'), result.verification?.outcome ? chalk_1.default.green('✓ Pass') : chalk_1.default.red('✗ Fail'));
         console.log('\n' + chalk_1.default.bold('Attestation:'));
         console.log(chalk_1.default.gray('  Hash:'), result.attestation_hash);
         if (result.ipfs_hash) {

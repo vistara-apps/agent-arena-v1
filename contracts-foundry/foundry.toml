@@ -5,6 +5,7 @@ libs = ["lib"]
 solc = "0.8.24"
 optimizer = true
 optimizer_runs = 200
+via_ir = true
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/",
     "@erc8004/=lib/erc-8004-contracts/contracts/"

@@ -2,8 +2,10 @@ export declare const config: {
     chainId: number;
     rpcUrl: string;
     identityRegistryAddress: string;
-    verifierAddress: string;
+    reputationRegistryAddress: string;
+    validationRegistryAddress: string;
     bountySystemAddress: string;
+    verifierAddress: string;
     agentPrivateKey: string;
     verifierEndpoint: string;
     arenaEndpoint: string;

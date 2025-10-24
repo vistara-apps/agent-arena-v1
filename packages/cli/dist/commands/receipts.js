@@ -43,12 +43,14 @@ async function showReceipts(options) {
         console.log('\n' + chalk_1.default.bold('Recent Work Receipts'));
         console.log(chalk_1.default.gray('─'.repeat(50)));
         for (const event of events.slice(-10)) { // Show last 10
-            const args = event.args;
-            console.log(chalk_1.default.bold('Agent:'), args.agent);
-            console.log(chalk_1.default.gray('  Bounty:'), args.bountyId.toString());
-            console.log(chalk_1.default.gray('  Score:'), (Number(args.trustScore) / 10).toFixed(1) + '/5.0');
-            console.log(chalk_1.default.gray('  Hash:'), args.attestationHash);
-            console.log();
+            if ('args' in event) {
+                const args = event.args;
+                console.log(chalk_1.default.bold('Agent:'), args.agent);
+                console.log(chalk_1.default.gray('  Bounty:'), args.bountyId.toString());
+                console.log(chalk_1.default.gray('  Score:'), (Number(args.trustScore) / 10).toFixed(1) + '/5.0');
+                console.log(chalk_1.default.gray('  Hash:'), args.attestationHash);
+                console.log();
+            }
         }
         console.log(chalk_1.default.gray('─'.repeat(50)) + '\n');
     }

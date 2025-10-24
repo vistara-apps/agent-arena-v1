@@ -106,7 +106,7 @@ program.configureHelp({
         const title = chalk_1.default.bold.blue('Agent Arena CLI');
         const description = chalk_1.default.gray('The git for agent work');
         const version = chalk_1.default.gray(`v${program.version()}`);
-        return `${title} ${version}\n${description}\n\n${helper.formatHelp()}`;
+        return `${title} ${version}\n${description}\n\n${helper.formatHelp(program, helper)}`;
     }
 });
 // Global error handler
