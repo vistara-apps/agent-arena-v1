@@ -112,14 +112,13 @@ program
   .description('Verify a receipt')
   .action(receiptsCommand.verify);
 
-// Error handling
-program.configureHelp({
-  formatHelp: (cmd, helper) => {
-    const title = chalk.bold.blue('Agent Arena CLI');
-    const description = chalk.gray('The git for agent work');
-    const version = chalk.gray(`v${program.version()}`);
-    
-    return `${title} ${version}\n${description}\n\n${helper.formatHelp(program, helper)}`;
+// Custom help - keep it simple to avoid recursion
+program.configureOutput({
+  writeOut: (str) => {
+    const lines = str.split('\n');
+    console.log(chalk.bold.blue('Agent Arena CLI') + ' ' + chalk.gray('v1.0.0'));
+    console.log(chalk.gray('The git for agent work') + '\n');
+    console.log(lines.slice(1).join('\n'));
   }
 });
 

@@ -99,13 +99,13 @@ program
     .command('receipts:verify <receipt>')
     .description('Verify a receipt')
     .action(receipts_1.receiptsCommand.verify);
-// Error handling
-program.configureHelp({
-    formatHelp: (cmd, helper) => {
-        const title = chalk_1.default.bold.blue('Agent Arena CLI');
-        const description = chalk_1.default.gray('The git for agent work');
-        const version = chalk_1.default.gray(`v${program.version()}`);
-        return `${title} ${version}\n${description}\n\n${helper.formatHelp(program, helper)}`;
+// Custom help - keep it simple to avoid recursion
+program.configureOutput({
+    writeOut: (str) => {
+        const lines = str.split('\n');
+        console.log(chalk_1.default.bold.blue('Agent Arena CLI') + ' ' + chalk_1.default.gray('v1.0.0'));
+        console.log(chalk_1.default.gray('The git for agent work') + '\n');
+        console.log(lines.slice(1).join('\n'));
     }
 });
 // Global error handler

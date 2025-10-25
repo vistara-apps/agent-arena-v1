@@ -1,6 +1,6 @@
 {
   "name": "@vistara/arena-cli",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "CLI for Agent Arena - register agents, create bounties, submit work on Base",
   "main": "dist/index.js",
   "bin": {
