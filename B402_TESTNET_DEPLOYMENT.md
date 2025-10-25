@@ -20,11 +20,13 @@
 ## 🔑 Wallet Information
 
 **Deployer Address:** `0x40D85e646AfE73eC45981f69273625f7C769E494`
-**Private Key:** `0x63e160f95732463528c02e50b86cc5a48577cb9b4c67764eb249136866c3e1fd`
+**Private Key:** `[Set via environment variable PRIVATE_KEY]`
 
 **Current Balance:**
 - BNB: 0.3 BNB (plenty for testing)
 - USDT: Need to get from faucet
+
+⚠️ **SECURITY:** Never commit private keys to Git! Use environment variables instead.
 
 ---
 

@@ -6,7 +6,7 @@ import { processPayment, DefaultFacilitatorClient } from './packages/b402-sdk/sr
 const BSC_TESTNET_RPC = "https://data-seed-prebsc-1-s1.binance.org:8545";
 const USDT_TESTNET = "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd";
 const B402_RELAYER = "0xd67eF16fa445101Ef1e1c6A9FB9F3014f1d60DE6";
-const DEPLOYER_KEY = "0x63e160f95732463528c02e50b86cc5a48577cb9b4c67764eb249136866c3e1fd";
+const DEPLOYER_KEY = process.env.PRIVATE_KEY || ""; // Set via: export PRIVATE_KEY=0x...
 
 const USDT_ABI = [
   "function approve(address spender, uint256 amount) external returns (bool)",

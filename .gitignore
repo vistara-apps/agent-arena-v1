@@ -1,46 +1,27 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Testing
-/coverage
-
-# Next.js
-/.next/
-/out/
-
-# Production
-/build
-
-# Misc
-.DS_Store
-*.pem
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Local env files
+# Private keys and sensitive data
 .env
-.env*.local
-*.env
-!env.example
-!.env.example
+.env.*
+*_PRIVATE_KEY*
+**/*.key
+**/*.pem
 
-# Vercel
-.vercel
+# Deployment artifacts with keys
+b402-addresses.json
+b402-mainnet-addresses.json
 
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+*.log
 
 # IDE
 .vscode/
 .idea/
 
 # OS
+.DS_Store
 Thumbs.db
-test-ledger/*contracts-foundry/lib/openzeppelin-contracts/
-contracts-foundry/lib/openzeppelin-contracts/
