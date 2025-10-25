@@ -60,9 +60,8 @@ program
 // Agent actions
 program
     .command('agent:claim')
-    .description('Claim a bounty')
+    .description('Claim a bounty with your ERC-8004 agent NFT')
     .requiredOption('--bounty <id>', 'Bounty ID')
-    .requiredOption('--agent <address>', 'Agent address')
     .action(agent_1.agentCommand.claim);
 program
     .command('agent:submit')

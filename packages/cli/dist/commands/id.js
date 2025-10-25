@@ -14,7 +14,6 @@ const IDENTITY_REGISTRY_ABI = [
     'function ownerOf(uint256 tokenId) external view returns (address)',
     'function tokenURI(uint256 tokenId) external view returns (string)',
     'function balanceOf(address owner) external view returns (uint256)',
-    'function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256)',
     'event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)',
     'event Registered(uint256 indexed agentId, string tokenURI, address indexed owner)'
 ];
@@ -29,15 +28,26 @@ async function createIdentity() {
         // Check if agent already owns an NFT
         const balance = await registry.balanceOf(wallet.address);
         if (balance > 0) {
-            const agentId = await registry.tokenOfOwnerByIndex(wallet.address, 0);
-            const tokenURI = await registry.tokenURI(agentId);
-            spinner.info(chalk_1.default.yellow('Agent already has identity'));
-            console.log('\n' + chalk_1.default.bold('Agent ID:'), chalk_1.default.cyan(`#${agentId}`));
-            console.log(chalk_1.default.bold('Address:'), wallet.address);
-            console.log(chalk_1.default.bold('Token URI:'), tokenURI);
-            console.log(chalk_1.default.bold('NFTs Owned:'), balance.toString());
-            console.log('\n' + chalk_1.default.dim('This identity works on ALL ERC-8004 platforms!\n'));
-            return;
+            spinner.text = 'Finding agent NFT ID...';
+            // Find the agent ID by querying Transfer events (last 50000 blocks)
+            const currentBlock = await provider.getBlockNumber();
+            const fromBlock = Math.max(0, currentBlock - 50000);
+            const filter = registry.filters.Transfer(null, wallet.address);
+            const events = await registry.queryFilter(filter, fromBlock, currentBlock);
+            if (events.length > 0) {
+                const lastEvent = events[events.length - 1];
+                if ('args' in lastEvent) {
+                    const agentId = lastEvent.args.tokenId;
+                    const tokenURI = await registry.tokenURI(agentId);
+                    spinner.info(chalk_1.default.yellow('Agent already has identity'));
+                    console.log('\n' + chalk_1.default.bold('Agent NFT ID:'), chalk_1.default.cyan(`#${agentId}`));
+                    console.log(chalk_1.default.bold('Address:'), wallet.address);
+                    console.log(chalk_1.default.bold('Token URI:'), tokenURI.substring(0, 100) + (tokenURI.length > 100 ? '...' : ''));
+                    console.log(chalk_1.default.bold('NFTs Owned:'), balance.toString());
+                    console.log('\n' + chalk_1.default.dim('This identity works on ALL ERC-8004 platforms!\n'));
+                    return;
+                }
+            }
         }
         spinner.text = 'Minting agent NFT...';
         // Create agent card
@@ -90,12 +100,27 @@ async function showIdentity() {
         const registry = new ethers_1.ethers.Contract(config_1.config.identityRegistryAddress, IDENTITY_REGISTRY_ABI, signer);
         const balance = await registry.balanceOf(wallet.address);
         if (balance === 0n) {
-            console.log(chalk_1.default.yellow('\n⚠️  No agent identity found\n'));
-            console.log(chalk_1.default.bold('Create one with:'));
-            console.log(chalk_1.default.gray('  npx arena id:create\n'));
+            console.log(chalk_1.default.yellow('\n⚠️  Agent not registered\n'));
+            console.log(chalk_1.default.dim('Create an identity with:\n  npx arena id:create\n'));
             return;
         }
-        const agentId = await registry.tokenOfOwnerByIndex(wallet.address, 0);
+        // Find the agent ID by querying Transfer events (last 50000 blocks)
+        const currentBlock = await provider.getBlockNumber();
+        const fromBlock = Math.max(0, currentBlock - 50000);
+        const filter = registry.filters.Transfer(null, wallet.address);
+        const events = await registry.queryFilter(filter, fromBlock, currentBlock);
+        if (events.length === 0) {
+            console.log(chalk_1.default.yellow('\n⚠️  Agent not registered\n'));
+            console.log(chalk_1.default.dim('Create an identity with:\n  npx arena id:create\n'));
+            return;
+        }
+        const lastEvent = events[events.length - 1];
+        if (!('args' in lastEvent)) {
+            console.log(chalk_1.default.yellow('\n⚠️  Agent not registered\n'));
+            console.log(chalk_1.default.dim('Create an identity with:\n  npx arena id:create\n'));
+            return;
+        }
+        const agentId = lastEvent.args.tokenId;
         const tokenURI = await registry.tokenURI(agentId);
         console.log('\n' + chalk_1.default.bold('🤖 Agent Identity (ERC-721 NFT)'));
         console.log(chalk_1.default.gray('─'.repeat(50)));

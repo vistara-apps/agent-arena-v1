@@ -1,6 +1,6 @@
 interface ClaimOptions {
     bounty: string;
-    agent: string;
+    agent?: string;
 }
 interface SubmitOptions {
     bounty: string;

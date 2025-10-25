@@ -3,11 +3,12 @@ import ora from 'ora';
 import { Wallet, ethers, JsonRpcProvider, parseEther } from 'ethers';
 import { config } from '../config';
 
+// ERC-8004 BountySystem ABI
 const BOUNTY_SYSTEM_ABI = [
-  'function createBounty(string description, uint256 rewardAmount, address tokenAddress, uint256 deadline, string verificationType) external payable returns (uint256)',
-  'function getBounty(uint256 bountyId) external view returns (tuple(address creator, string description, uint256 rewardAmount, address tokenAddress, uint256 deadline, string verificationType, uint8 status, address assignedAgent))',
-  'function activeBounties() external view returns (uint256)',
-  'event BountyCreated(uint256 indexed bountyId, address indexed creator, uint256 rewardAmount)'
+  'function createBounty(string description, uint256 rewardAmount, address tokenAddress, uint256 deadline) external payable returns (uint256)',
+  'function getBounty(uint256 bountyId) external view returns (tuple(uint256 bountyId, address creator, string description, uint256 rewardAmount, address rewardToken, uint8 status, uint256 submissionDeadline, uint256 createdAt, uint256 assignedAgentId, string resultURI))',
+  'function bountyCount() external view returns (uint256)',
+  'event BountyCreated(uint256 indexed bountyId, address indexed creator, uint256 rewardAmount, address rewardToken)'
 ];
 
 interface CreateBountyOptions {
@@ -35,7 +36,6 @@ async function createBounty(options: CreateBountyOptions) {
     const rewardAmount = parseEther(options.escrow);
     const tokenAddress = '0x0000000000000000000000000000000000000000'; // ETH
     const deadline = Math.floor(Date.now() / 1000) + 86400; // 24 hours
-    const verificationType = 'triple_verification';
 
     spinner.text = 'Submitting transaction...';
 
@@ -44,7 +44,6 @@ async function createBounty(options: CreateBountyOptions) {
       rewardAmount,
       tokenAddress,
       deadline,
-      verificationType,
       { value: rewardAmount }
     );
 
@@ -94,9 +93,9 @@ async function listBounties() {
       provider
     );
 
-    const totalBounties = await bountySystem.activeBounties();
+    const totalBounties = await bountySystem.bountyCount();
 
-    spinner.succeed(chalk.green(`Found ${totalBounties} active bounties`));
+    spinner.succeed(chalk.green(`Found ${totalBounties} total bounties`));
 
     console.log('\n' + chalk.bold('Active Bounties'));
     console.log(chalk.gray('─'.repeat(50)));
@@ -108,7 +107,10 @@ async function listBounties() {
         
         console.log(chalk.bold(`#${i}:`), bounty.description);
         console.log(chalk.gray('  Reward:'), reward, 'ETH');
-        console.log(chalk.gray('  Status:'), ['Open', 'Claimed', 'Completed', 'Disputed'][bounty.status]);
+        console.log(chalk.gray('  Status:'), ['Open', 'Claimed', 'Completed'][bounty.status]);
+        if (bounty.assignedAgentId > 0) {
+          console.log(chalk.gray('  Agent NFT:'), `#${bounty.assignedAgentId}`);
+        }
         console.log();
       } catch {
         continue;
@@ -140,16 +142,16 @@ async function showBounty(bountyId: string) {
 
     spinner.succeed(chalk.green('Bounty loaded'));
 
-    console.log('\n' + chalk.bold(`Bounty #${bountyId}`));
+    console.log('\n' + chalk.bold(`Bounty #${bounty.bountyId}`));
     console.log(chalk.gray('─'.repeat(50)));
     console.log(chalk.bold('Creator:'), bounty.creator);
     console.log(chalk.bold('Description:'), bounty.description);
     console.log(chalk.bold('Reward:'), ethers.formatEther(bounty.rewardAmount), 'ETH');
-    console.log(chalk.bold('Status:'), ['Open', 'Claimed', 'Completed', 'Disputed'][bounty.status]);
-    console.log(chalk.bold('Deadline:'), new Date(Number(bounty.deadline) * 1000).toISOString());
-    console.log(chalk.bold('Verification:'), bounty.verificationType);
-    if (bounty.assignedAgent !== '0x0000000000000000000000000000000000000000') {
-      console.log(chalk.bold('Assigned Agent:'), bounty.assignedAgent);
+    console.log(chalk.bold('Status:'), ['Open', 'Claimed', 'Completed'][bounty.status]);
+    console.log(chalk.bold('Deadline:'), new Date(Number(bounty.submissionDeadline) * 1000).toISOString());
+    console.log(chalk.bold('Created:'), new Date(Number(bounty.createdAt) * 1000).toISOString());
+    if (bounty.assignedAgentId > 0) {
+      console.log(chalk.bold('Assigned Agent NFT:'), `#${bounty.assignedAgentId}`);
     }
     console.log(chalk.gray('─'.repeat(50)) + '\n');
 
