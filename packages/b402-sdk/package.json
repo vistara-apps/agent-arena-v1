@@ -1,0 +1,31 @@
+{
+  "name": "@vistara/b402-sdk",
+  "version": "0.1.0",
+  "description": "b402.ai SDK - x402 for BNB Chain",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "b402",
+    "x402",
+    "bnb-chain",
+    "bsc",
+    "payments",
+    "meta-transactions"
+  ],
+  "author": "Vistara Labs",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}
