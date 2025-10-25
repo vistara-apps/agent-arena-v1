@@ -25,3 +25,4 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+contracts-foundry/lib/
