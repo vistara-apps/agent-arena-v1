@@ -1,6 +1,6 @@
 {
-  "name": "@agent-arena/core",
-  "version": "0.1.0-alpha.1",
+  "name": "agent-arena-core",
+  "version": "0.2.0",
   "description": "Agent Arena core - ERC-8004 identity, A2A protocol, and settlement types",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
