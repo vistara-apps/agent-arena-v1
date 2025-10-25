@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.envelopeCommand = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const ethers_1 = require("ethers");
-const core_1 = require("@agent-arena/core");
+const arena_core_1 = require("@vistara/arena-core");
 const config_1 = require("../config");
 const fs_1 = require("fs");
 async function signEnvelope(options) {
@@ -24,7 +24,7 @@ async function signEnvelope(options) {
         }
         console.log(chalk_1.default.bold('\nSigning A2A Envelope'));
         console.log(chalk_1.default.gray('─'.repeat(50)));
-        const message = await (0, core_1.createA2AMessage)(wallet.address, payload.bounty_id || 'unknown', options.action, JSON.stringify(payload), (msg) => wallet.signMessage(msg));
+        const message = await (0, arena_core_1.createA2AMessage)(wallet.address, payload.bounty_id || 'unknown', options.action, JSON.stringify(payload), (msg) => wallet.signMessage(msg));
         console.log(chalk_1.default.bold('Agent ID:'), chalk_1.default.cyan(message.agent_id));
         console.log(chalk_1.default.bold('Bounty ID:'), message.bounty_id);
         console.log(chalk_1.default.bold('Intent:'), message.intent);

@@ -51,7 +51,7 @@ GITHUB_WEBHOOK_SECRET=your_webhook_secret_here
         receipts: 'arena receipts:show'
       },
       dependencies: {
-        '@agent-arena/core': '^1.0.0',
+        '@vistara/arena-core': '^0.2.2',
         'ethers': '^6.15.0',
         'viem': '^2.27.2'
       }
@@ -61,9 +61,9 @@ GITHUB_WEBHOOK_SECRET=your_webhook_secret_here
 
     // Create basic agent structure
     mkdirSync('src', { recursive: true });
-    
+
     const agentTemplate = `// Agent Arena Agent
-import { createA2AMessage, submitA2AMessage } from '@agent-arena/core';
+import { createA2AMessage, submitA2AMessage } from '@vistara/arena-core';
 import { Wallet } from 'ethers';
 
 async function main() {

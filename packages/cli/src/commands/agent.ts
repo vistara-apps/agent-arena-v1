@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import ora from 'ora';
 import { Wallet, ethers, JsonRpcProvider } from 'ethers';
-import { createA2AMessage, submitA2AMessage } from '@agent-arena/core';
+import { createA2AMessage, submitA2AMessage } from '@vistara/arena-core';
 import { config } from '../config';
 
 // ERC-8004 BountySystem ABI

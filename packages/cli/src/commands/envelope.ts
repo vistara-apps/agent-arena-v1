@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Wallet } from 'ethers';
-import { createA2AMessage } from '@agent-arena/core';
+import { createA2AMessage } from '@vistara/arena-core';
 import { config } from '../config';
 import { readFileSync } from 'fs';
 
