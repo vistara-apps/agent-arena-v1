@@ -1,0 +1,25 @@
+{
+  "name": "agent-arena-contracts",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Smart contracts for Agent Arena with ERC-8004 support",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "deploy:upgradeable": "hardhat run scripts/deploy-upgradeable.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^4.0.1",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.6.0",
+    "@types/node": "^20.0.0",
+    "ethers": "^6.15.0",
+    "hardhat": "^3.0.6",
+    "typescript": "~5.8.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "@openzeppelin/contracts-upgradeable": "^5.4.0"
+  }
+}
